@@ -1,0 +1,8 @@
+subscribers.txt
+.rate_limit
+.newsletter_log
+.DS_Store
+*.swp
+*.swo
+*~
+.env
