@@ -1,6 +1,7 @@
 const scene = document.getElementById("logoScene");
 const logo = document.getElementById("logo");
 const deployMeta = document.getElementById("deployMeta");
+const easterEggToast = document.getElementById("easterEggToast");
 
 let targetX = 0;
 let targetY = 0;
@@ -9,6 +10,8 @@ let currentY = 0;
 let lastInputAt = 0;
 let sensorInputAt = 0;
 let rafId = null;
+let keyBuffer = "";
+let eggTimerId = null;
 
 function applyTransform() {
   currentX += (targetX - currentX) * 0.11;
@@ -34,6 +37,40 @@ function updateByPointer(clientX, clientY) {
   targetX = (x - 0.5) * 2;
   targetY = (y - 0.5) * 2;
   lastInputAt = Date.now();
+}
+
+function setupEasterEgg() {
+  if (!easterEggToast) {
+    return;
+  }
+
+  window.addEventListener("keydown", (event) => {
+    if (event.ctrlKey || event.altKey || event.metaKey) {
+      return;
+    }
+
+    const key = (event.key || "").toUpperCase();
+    if (!/^[A-Z0-9]$/.test(key)) {
+      return;
+    }
+
+    keyBuffer = (keyBuffer + key).slice(-8);
+    if (keyBuffer.includes("CQDX")) {
+      easterEggToast.classList.remove("is-visible");
+      void easterEggToast.offsetWidth;
+      easterEggToast.classList.add("is-visible");
+
+      if (eggTimerId) {
+        clearTimeout(eggTimerId);
+      }
+
+      eggTimerId = setTimeout(() => {
+        easterEggToast.classList.remove("is-visible");
+      }, 6000);
+
+      keyBuffer = "";
+    }
+  });
 }
 
 window.addEventListener("pointermove", (event) => {
@@ -198,6 +235,7 @@ async function loadDeployInfo() {
 
 setupIframeObserver();
 loadDeployInfo();
+setupEasterEgg();
 
 setupMobileMotion();
 applyTransform();
