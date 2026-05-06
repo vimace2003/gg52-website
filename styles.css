@@ -349,6 +349,12 @@ h1 {
   font-size: 0.9rem;
 }
 
+.footer-meta {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  color: rgba(152, 173, 176, 0.95);
+}
+
 .footer-github a {
   color: var(--ink);
   text-decoration: underline;

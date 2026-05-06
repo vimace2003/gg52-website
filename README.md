@@ -4,6 +4,10 @@
 
 Landing page oficial do GG52 Floripa DX, com foco em presença institucional, links de logbook, widgets do QRZ e formulário de newsletter.
 
+## Dominio oficial
+
+[https://gg52floripadx.com/](https://gg52floripadx.com/)
+
 ## Visão geral
 
 Este projeto foi desenvolvido como página de apresentação do time, com visual responsivo e deploy automatizado.
@@ -67,6 +71,7 @@ Workflow:
 
 - Arquivo: .github/workflows/deploy-hostgator-ftp.yml
 - Gatilhos: push em main e execução manual
+- Durante o deploy, e gerado o arquivo deploy-info.json com versao e data/hora da publicacao para exibicao no rodape da pagina
 
 Secrets necessários no GitHub:
 

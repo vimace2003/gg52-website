@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Validate required secrets
         env:
@@ -33,6 +35,35 @@ jobs:
           test -n "$FTP_USERNAME" || (echo "Missing secret: FTP_USERNAME" && exit 1)
           test -n "$FTP_PASSWORD" || (echo "Missing secret: FTP_PASSWORD" && exit 1)
           test -n "$FTP_SERVER_DIR" || (echo "Missing secret: FTP_SERVER_DIR" && exit 1)
+
+      - name: Generate deploy metadata file
+        env:
+          GITHUB_SHA_SHORT: ${{ github.sha }}
+        run: |
+          SHORT_SHA=$(echo "$GITHUB_SHA_SHORT" | cut -c1-7)
+          HEAD_TAG=$(git tag --points-at HEAD | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)
+          LATEST_TAG=$(git tag -l 'v*.*.*' --sort=-version:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || true)
+
+          if [ -n "$HEAD_TAG" ]; then
+            VERSION="${HEAD_TAG#v}"
+          elif [ -n "$LATEST_TAG" ]; then
+            BASE="${LATEST_TAG#v}"
+            MAJOR=$(echo "$BASE" | cut -d. -f1)
+            MINOR=$(echo "$BASE" | cut -d. -f2)
+            PATCH=$(echo "$BASE" | cut -d. -f3)
+            NEXT_PATCH=$((PATCH + 1))
+            VERSION="${MAJOR}.${MINOR}.${NEXT_PATCH}-dev.${GITHUB_RUN_NUMBER}+sha.${SHORT_SHA}"
+          else
+            VERSION="0.1.0-dev.${GITHUB_RUN_NUMBER}+sha.${SHORT_SHA}"
+          fi
+
+          DEPLOYED_AT=$(TZ=America/Sao_Paulo date '+%Y-%m-%d %H:%M:%S %Z')
+          cat > deploy-info.json <<EOF
+          {
+            "version": "$VERSION",
+            "deployedAt": "$DEPLOYED_AT"
+          }
+          EOF
 
       - name: Deploy files to Hostgator
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

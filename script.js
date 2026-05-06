@@ -1,5 +1,6 @@
 const scene = document.getElementById("logoScene");
 const logo = document.getElementById("logo");
+const deployMeta = document.getElementById("deployMeta");
 
 let targetX = 0;
 let targetY = 0;
@@ -175,7 +176,28 @@ function setupIframeObserver() {
   iframes.forEach((iframe) => observer.observe(iframe));
 }
 
+async function loadDeployInfo() {
+  if (!deployMeta) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`./deploy-info.json?t=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("deploy-info indisponivel");
+    }
+
+    const info = await response.json();
+    const version = info.version || "desconhecida";
+    const deployedAt = info.deployedAt || "nao informado";
+    deployMeta.textContent = `Versao: ${version} | Ultimo deploy: ${deployedAt}`;
+  } catch (_error) {
+    deployMeta.textContent = "Versao: local | Ultimo deploy: ambiente de desenvolvimento";
+  }
+}
+
 setupIframeObserver();
+loadDeployInfo();
 
 setupMobileMotion();
 applyTransform();
