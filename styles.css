@@ -344,6 +344,24 @@ h1 {
   font-size: 0.95rem;
 }
 
+.footer-github {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.footer-github a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(125, 154, 156, 0.75);
+  text-underline-offset: 2px;
+}
+
+.footer-github a:hover,
+.footer-github a:focus-visible {
+  color: #ffffff;
+  text-decoration-color: rgba(237, 242, 242, 0.9);
+}
+
 .bg-shape {
   position: fixed;
   border-radius: 45% 55% 50% 50% / 45% 40% 60% 55%;
