@@ -2,7 +2,7 @@
 
 ![Logo GG52 Floripa DX](./GG52-Logo-768x514.png)
 
-Landing page oficial do GG52 Floripa DX, com foco em presença institucional, links de logbook, widgets do QRZ e formulário de newsletter.
+Home oficial do GG52 Floripa DX: história do time, estações (Estação Patrocinada e Angelina), galeria de membros com links para o QRZ, logbooks, widgets do QRZ e formulário de newsletter.
 
 ## Dominio oficial
 
@@ -16,10 +16,25 @@ Principais pontos:
 
 - Layout moderno e responsivo
 - Efeito parallax na logo (desktop e mobile)
+- Seções institucionais: Quem Somos, Nossas Estações e O Time (galeria de membros)
+- Galeria de membros com link para o perfil QRZ de cada indicativo
 - Integração com logbooks (QRZ e Hampass)
 - Widgets de estatísticas do QRZ
+- Página em três idiomas (inglês padrão, português e espanhol) com seletor de bandeiras
+- Analytics via Microsoft Clarity
 - Newsletter com backend em PHP salvando inscritos em arquivo TXT
 - Deploy automático via GitHub Actions para Hostgator (FTP)
+
+## Idiomas
+
+- O idioma padrão é o inglês; o visitante pode trocar para português ou espanhol pelas bandeiras no canto superior direito (a escolha fica salva no navegador via localStorage).
+- Todos os textos traduzíveis ficam no objeto `GG52_TRANSLATIONS` em `i18n.js`. Para corrigir ou adicionar um texto, edite apenas esse arquivo e use o mesmo `data-i18n` no HTML.
+
+## Galeria de membros
+
+- A lista de membros fica no array `TEAM_MEMBERS` no topo de `script.js` (nome + indicativos). Para incluir, remover ou corrigir um membro, edite apenas esse array.
+- Fotos: coloque um arquivo JPG na pasta `members/` com o nome do indicativo em minúsculas (ex: `members/pp5kj.jpg`). A foto substitui automaticamente o avatar de iniciais, sem mexer em código.
+- Membro sem indicativo confirmado (`callsigns: []`) aparece sem link para o QRZ.
 
 ## Tecnologias
 
@@ -34,7 +49,9 @@ Principais pontos:
 
 - index.html: estrutura principal da página
 - styles.css: estilos e responsividade
-- script.js: parallax, sensores mobile e lazy load dos iframes
+- script.js: galeria de membros (array TEAM_MEMBERS), parallax, sensores mobile e lazy load dos iframes
+- i18n.js: traduções (inglês padrão, português e espanhol) e seletor de idioma
+- members/: fotos dos membros (convenção: indicativo em minúsculas + .jpg)
 - newsletter.php: endpoint de inscrição da newsletter
 - newsletter-handler.js: envio assíncrono do formulário
 - .htaccess: headers, cache e compressão
@@ -93,7 +110,9 @@ Exemplo comum de diretório remoto:
 
 ## Roadmap sugerido
 
-- Página institucional final (trocar estado Em Desenvolvimento)
+- ~~Página institucional final (trocar estado Em Desenvolvimento)~~ (concluído)
+- Fotos reais dos membros na pasta members/
+- Versão HTML da biografia para o QRZ.com
 - Painel simples para listar inscritos da newsletter
 - Melhorias de observabilidade e métricas
 - Hardening adicional de segurança no servidor
