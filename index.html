@@ -5,24 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <title>GG52 Floripa DX | Em Construção</title>
+    <title>GG52 Floripa DX</title>
     <meta
       name="description"
-      content="Página oficial do GG52 Floripa DX em construção. Acompanhe status, logbooks e estatísticas ao vivo."
+      content="GG52 Floripa DX: time de contests e DX da Grande Florianópolis. Conheça a história, as estações, os membros e acompanhe os logbooks ZZ5D e ZZ5DX."
     />
     <meta name="theme-color" content="#1b282b" />
-    <meta property="og:title" content="GG52 Floripa DX | Em Construção" />
+    <meta property="og:title" content="GG52 Floripa DX" />
     <meta
       property="og:description"
-      content="A nova página oficial do GG52 Floripa DX está em construção."
+      content="Time de contests e DX da Grande Florianópolis. Rádio, contests e amizade no grid GG52."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="./GG52-Logo-768x514.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="GG52 Floripa DX | Em Construção" />
+    <meta name="twitter:title" content="GG52 Floripa DX" />
     <meta
       name="twitter:description"
-      content="A nova página oficial do GG52 Floripa DX está em construção."
+      content="Time de contests e DX da Grande Florianópolis. Rádio, contests e amizade no grid GG52."
     />
     <meta name="twitter:image" content="./GG52-Logo-768x514.png" />
     <meta name="robots" content="index, follow" />
@@ -37,7 +37,8 @@
     />
     <link rel="icon" type="image/png" href="./GG52-Logo-768x514.png" />
     <link rel="preload" as="image" href="./GG52-Logo-768x514.png" />
-    <link rel="stylesheet" href="./styles.css?v=20260505-2" />
+    <link rel="stylesheet" href="./styles.css?v=20260713-1" />
+    <script src="./clarity-init.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -59,6 +60,33 @@
   <body>
     <div class="bg-shape bg-shape-a" aria-hidden="true"></div>
     <div class="bg-shape bg-shape-b" aria-hidden="true"></div>
+
+    <nav class="lang-switcher" aria-label="Language / Idioma">
+      <button type="button" class="lang-btn" data-lang="en" title="English" aria-label="English">
+        <svg viewBox="0 0 28 20" aria-hidden="true" focusable="false">
+          <rect width="28" height="20" fill="#012169" />
+          <path d="M0 0 28 20 M28 0 0 20" stroke="#ffffff" stroke-width="4" />
+          <path d="M0 0 28 20 M28 0 0 20" stroke="#C8102E" stroke-width="2" />
+          <path d="M14 0 V20 M0 10 H28" stroke="#ffffff" stroke-width="6" />
+          <path d="M14 0 V20 M0 10 H28" stroke="#C8102E" stroke-width="3.5" />
+        </svg>
+      </button>
+      <button type="button" class="lang-btn" data-lang="pt" title="Português" aria-label="Português">
+        <svg viewBox="0 0 28 20" aria-hidden="true" focusable="false">
+          <rect width="28" height="20" fill="#009739" />
+          <path d="M14 2.5 25 10 14 17.5 3 10 Z" fill="#FEDD00" />
+          <circle cx="14" cy="10" r="4.4" fill="#012169" />
+          <path d="M10 9.2 Q14 8 18 10.4" stroke="#ffffff" stroke-width="0.9" fill="none" />
+        </svg>
+      </button>
+      <button type="button" class="lang-btn" data-lang="es" title="Español" aria-label="Español">
+        <svg viewBox="0 0 28 20" aria-hidden="true" focusable="false">
+          <rect width="28" height="20" fill="#74ACDF" />
+          <rect y="6.7" width="28" height="6.6" fill="#ffffff" />
+          <circle cx="14" cy="10" r="2.3" fill="#F6B40E" />
+        </svg>
+      </button>
+    </nav>
     <div class="easter-egg-toast" id="easterEggToast" aria-live="polite" role="status">
       CQ DX detectado! 73 de GG52 | ... --- ...
     </div>
@@ -79,18 +107,11 @@
 
         <section class="content">
           <p class="tag">GG52 FLORIPA DX</p>
-          <h1>Página em Desenvolvimento</h1>
-          <p class="subtitle">
-            Estamos preparando a nova página oficial. A equipe está ativa em logbooks e concursos.
+          <h1 data-i18n="hero.title">Rádio, contests e amizade no grid GG52</h1>
+          <p class="subtitle" data-i18n="hero.subtitle">
+            Time de contests e DX da Grande Florianópolis. No ar como ZZ5DX nos
+            concursos nacionais e ZZ5D nos contests e ativações internacionais.
           </p>
-
-          <div class="newsletter-signup" role="region" aria-labelledby="newsletter-title">
-            <p id="newsletter-title" style="margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem;">Receba novidades:</p>
-            <form class="newsletter-form" method="POST" id="newsletter">
-              <input type="email" name="email" placeholder="seu@email.com" required aria-label="Email para newsletter" />
-              <button type="submit" aria-label="Inscrever na newsletter">Inscrever</button>
-            </form>
-          </div>
 
           <div class="cta-row" aria-label="Acessos rápidos aos logbooks">
             <a
@@ -114,16 +135,57 @@
       </section>
 
       <section class="about panel">
-        <h2>Quem somos</h2>
-        <p>
-          O GG52 Floripa DX e uma equipe focada em radioamadorismo DX,
-          concursos e operacao tecnica, representando Florianopolis em atividade
-          constante.
+        <h2 data-i18n="about.title">Quem somos</h2>
+        <p data-i18n="about.p1">
+          O GG52 Floripa DX é um grupo de amigos radioamadores, todos também
+          membros da
+          <a
+            href="https://araf.org.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-link"
+            aria-label="Site da ARAF - Associação de Radioamadores de Florianópolis"
+            >ARAF — Associação de Radioamadores de Florianópolis</a
+          >. O
+          grupo nasceu porque a ARAF não tinha presença em contests nacionais e
+          internacionais: Gibson (PP5GW) e Ricardo (PP5BM) se juntaram e, em
+          seguida, passaram a recrutar os mais seletos membros para formar o
+          time.
+        </p>
+        <p data-i18n="about.p2">
+          O nome vem do grid locator <strong>GG52</strong>, que cobre a Grande
+          Florianópolis, e a logo traz a silhueta da ilha de Santa Catarina —
+          nossa casa. Em concursos nacionais o time opera como
+          <strong>ZZ5DX</strong>; em contests e ativações internacionais, como
+          <strong>ZZ5D</strong>.
         </p>
       </section>
 
+      <section class="stations panel" aria-label="Estações do time">
+        <h2 data-i18n="stations.title">Nossas estações</h2>
+        <div class="stations-grid">
+          <article class="station-card">
+            <h3 data-i18n="stations.sponsored.title">Estação Patrocinada</h3>
+            <p data-i18n="stations.sponsored.text">
+              A sede do time é a estação fixa de Henrique (PP5NY). É chamada de
+              "Estação Patrocinada" porque sua construção foi um mutirão: cada
+              radioamador doou alguma coisa — torre, antenas, cabos. Uma
+              construção em conjunto, pautada na amizade, que também é palco
+              dos encontros e das festas bem animadas do grupo.
+            </p>
+          </article>
+          <article class="station-card">
+            <h3 data-i18n="stations.angelina.title">Estação de Angelina</h3>
+            <p data-i18n="stations.angelina.text">
+              O segundo quartel-general do time é a estação do Seu Hélio
+              (PU5HVW), em Angelina, no interior da Grande Florianópolis.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section class="logbooks panel" aria-label="Logbooks oficiais">
-        <h2>Logbooks oficiais</h2>
+        <h2 data-i18n="logbooks.title">Logbooks oficiais</h2>
         <div class="logbook-links">
           <a
             class="logbook-link"
@@ -146,8 +208,16 @@
         </div>
       </section>
 
+      <section class="team panel" aria-label="Membros do time">
+        <h2 data-i18n="team.title">O time</h2>
+        <p class="team-intro" data-i18n="team.intro">
+          Clique no indicativo para ver o perfil de cada membro no QRZ.com.
+        </p>
+        <div class="members-grid" id="membersGrid"></div>
+      </section>
+
       <section class="widgets panel" aria-label="Estatisticas dos logbooks">
-        <h2>Estatísticas em tempo real</h2>
+        <h2 data-i18n="widgets.title">Estatísticas em tempo real</h2>
         <div class="widget-grid">
           <article class="widget-card">
             <h3>QRZ - ZZ5D</h3>
@@ -182,9 +252,19 @@
         </div>
       </section>
 
+      <section class="newsletter panel" role="region" aria-labelledby="newsletter-title">
+        <h2 id="newsletter-title" data-i18n="newsletter.title">Receba novidades</h2>
+        <div class="newsletter-signup">
+          <form class="newsletter-form" method="POST" id="newsletter">
+            <input type="email" name="email" placeholder="seu@email.com" required aria-label="Email para newsletter" data-i18n-placeholder="newsletter.placeholder" />
+            <button type="submit" aria-label="Inscrever na newsletter" data-i18n="newsletter.button">Inscrever</button>
+          </form>
+        </div>
+      </section>
+
       <footer class="footer">
         <p>GG52 Floripa DX | Florianopolis, SC | Brasil</p>
-        <p class="footer-github">
+        <p class="footer-github" data-i18n="footer.github">
           Codigo desta pagina no GitHub.
           <a
             href="https://github.com/vimace2003/gg52-website"
@@ -200,7 +280,8 @@
       </footer>
     </main>
 
-    <script src="./script.js?v=20260505-2"></script>
-    <script src="./newsletter-handler.js?v=20260505-2"></script>
+    <script src="./i18n.js?v=20260713-1"></script>
+    <script src="./script.js?v=20260713-1"></script>
+    <script src="./newsletter-handler.js?v=20260713-1"></script>
   </body>
 </html>

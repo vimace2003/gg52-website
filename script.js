@@ -1,3 +1,21 @@
+// Membros do time. Para editar a galeria, mexa apenas neste array.
+// Foto: coloque um arquivo ./members/<indicativo-minusculo>.jpg (ex: members/pp5kj.jpg);
+// sem foto, o card mostra as iniciais do nome. "callsigns" vazio = card sem link QRZ.
+const TEAM_MEMBERS = [
+  { name: "Gibson", callsigns: ["PP5GW"] },
+  { name: "Ricardo Pires", callsigns: ["PP5BM"] },
+  { name: "Daniel (DAN)", callsigns: ["PP5DAN"] },
+  { name: "Daniel Régis", callsigns: ["PP5RD"] },
+  { name: "Hélio Vidal", callsigns: ["PU5HVW"] },
+  { name: "Henrique", callsigns: ["PP5NY"] },
+  { name: "João Carlos (Cabreuva)", callsigns: ["PP5GTA", "PY2GTA"] },
+  { name: "Rodrigo", callsigns: ["PP5NB"] },
+  { name: "Ronaldo", callsigns: [] },
+  { name: "Evandro", callsigns: ["PU5LAF"] },
+  { name: "Roberto Franz", callsigns: ["PU5LPZ"] },
+  { name: "Vinicius Macedo", callsigns: ["PP5KJ"] },
+];
+
 const scene = document.getElementById("logoScene");
 const logo = document.getElementById("logo");
 const deployMeta = document.getElementById("deployMeta");
@@ -213,6 +231,91 @@ function setupIframeObserver() {
   iframes.forEach((iframe) => observer.observe(iframe));
 }
 
+function memberInitials(name) {
+  const words = name.replace(/\(.*?\)/g, "").trim().split(/\s+/);
+  const first = words[0] ? words[0][0] : "";
+  const last = words.length > 1 ? words[words.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
+
+function memberPhotoSlug(member) {
+  const base = member.callsigns[0] || member.name.split(/\s+/)[0];
+  return base
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function renderTeamMembers() {
+  const grid = document.getElementById("membersGrid");
+  if (!grid) {
+    return;
+  }
+
+  TEAM_MEMBERS.forEach((member) => {
+    const card = document.createElement("article");
+    card.className = "member-card";
+
+    const avatar = document.createElement("div");
+    avatar.className = "member-avatar";
+
+    const initials = document.createElement("span");
+    initials.className = "member-initials";
+    initials.setAttribute("aria-hidden", "true");
+    initials.textContent = memberInitials(member.name);
+    avatar.appendChild(initials);
+
+    const photo = document.createElement("img");
+    photo.className = "member-photo";
+    photo.alt = `Foto de ${member.name}`;
+    photo.loading = "lazy";
+    const slug = memberPhotoSlug(member);
+    const photoSources = [`./members/${slug}.jpg`, `./members/${slug}.png`];
+    let photoSourceIndex = 0;
+    photo.addEventListener("error", () => {
+      photoSourceIndex += 1;
+      if (photoSourceIndex < photoSources.length) {
+        photo.src = photoSources[photoSourceIndex];
+      } else {
+        photo.remove();
+      }
+    });
+    photo.src = photoSources[photoSourceIndex];
+    avatar.appendChild(photo);
+
+    const name = document.createElement("p");
+    name.className = "member-name";
+    name.textContent = member.name;
+
+    const callsign = document.createElement("p");
+    callsign.className = "member-callsign";
+    if (member.callsigns.length) {
+      member.callsigns.forEach((sign, index) => {
+        if (index > 0) {
+          callsign.appendChild(document.createTextNode(" / "));
+        }
+        const link = document.createElement("a");
+        link.href = `https://www.qrz.com/db/${sign}`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.setAttribute("aria-label", `Perfil de ${member.name} (${sign}) no QRZ.com`);
+        link.textContent = sign;
+        callsign.appendChild(link);
+      });
+    } else {
+      callsign.setAttribute("data-i18n", "team.qrzSoon");
+      callsign.textContent =
+        typeof GG52_I18N !== "undefined" ? GG52_I18N.t("team.qrzSoon") : "QRZ em breve";
+      callsign.classList.add("member-callsign-pending");
+    }
+
+    card.appendChild(avatar);
+    card.appendChild(name);
+    card.appendChild(callsign);
+    grid.appendChild(card);
+  });
+}
+
 async function loadDeployInfo() {
   if (!deployMeta) {
     return;
@@ -233,6 +336,7 @@ async function loadDeployInfo() {
   }
 }
 
+renderTeamMembers();
 setupIframeObserver();
 loadDeployInfo();
 setupEasterEgg();
