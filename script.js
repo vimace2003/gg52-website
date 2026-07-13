@@ -4,11 +4,11 @@
 // flip: true = easter egg: com uma segunda foto <indicativo>_2.jpg na pasta members/,
 // passar o mouse sobre o avatar vira a foto (flip) com borda dourada.
 const TEAM_MEMBERS = [
-  { name: "Gibson", callsigns: ["PP5GW"] },
+  { name: "Gibson", callsigns: ["PP5GW"], flip: true },
   { name: "Ricardo Pires", callsigns: ["PP5BM"] },
   { name: "Daniel (DAN)", callsigns: ["PP5DAN"] },
   { name: "Daniel Régis", callsigns: ["PP5RD"] },
-  { name: "Hélio Vidal", callsigns: ["PU5HVW"] },
+  { name: "Hélio Vidal", callsigns: ["PU5HVW"], flip: true },
   { name: "Henrique", callsigns: ["PP5NY"], flip: true },
   { name: "João Carlos (Cabreuva)", callsigns: ["PP5GTA", "PY2GTA"] },
   { name: "Rodrigo", callsigns: ["PP5NB"] },

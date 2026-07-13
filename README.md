@@ -35,7 +35,7 @@ Principais pontos:
 - A lista de membros fica no array `TEAM_MEMBERS` no topo de `script.js` (nome + indicativos). Para incluir, remover ou corrigir um membro, edite apenas esse array.
 - Fotos: coloque um arquivo JPG na pasta `members/` com o nome do indicativo em minúsculas (ex: `members/pp5kj.jpg`). A foto substitui automaticamente o avatar de iniciais, sem mexer em código.
 - Membro sem indicativo confirmado (`callsigns: []`) aparece sem link para o QRZ.
-- Easter egg (flip): adicione `flip: true` ao membro no array e uma segunda foto `<indicativo>_2.jpg` na pasta `members/`. Ao passar o mouse (ou tocar, no celular) sobre o avatar, a foto vira com uma borda dourada. Hoje ativo apenas para o PP5NY.
+- Easter egg (flip): adicione `flip: true` ao membro no array e uma segunda foto `<indicativo>_2.jpg` na pasta `members/`. Ao passar o mouse (ou tocar, no celular) sobre o avatar, a foto vira com uma borda dourada. Hoje ativo para PP5NY, PP5GW e PU5HVW.
 
 ## Tecnologias
 
