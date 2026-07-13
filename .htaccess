@@ -4,7 +4,7 @@
   Header set X-Frame-Options "SAMEORIGIN"
   Header set X-XSS-Protection "1; mode=block"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms https://*.clarity.ms; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://logbook.qrz.com; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://*.clarity.ms"
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.clarity.ms https://*.clarity.ms; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://logbook.qrz.com; img-src 'self' data: https:; connect-src 'self' https://formspree.io https://*.clarity.ms"
   Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
