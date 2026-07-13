@@ -1,4 +1,4 @@
-// Traducoes da pagina. Idioma padrao: ingles (en).
+// Traducoes da pagina. Idioma padrao: portugues (pt).
 // Para ajustar um texto, edite apenas este arquivo. Chaves com HTML sao
 // aplicadas via innerHTML (somente strings controladas por nos).
 const GG52_TRANSLATIONS = {
@@ -89,7 +89,7 @@ const GG52_LANG_TAGS = { en: "en", pt: "pt-BR", es: "es" };
 const GG52_LANG_STORAGE_KEY = "gg52-lang";
 
 const GG52_I18N = {
-  current: "en",
+  current: "pt",
 
   t(key) {
     const table = GG52_TRANSLATIONS[this.current] || {};

@@ -81,11 +81,16 @@
   display: block;
 }
 
-.lang-btn:hover,
+.lang-btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
 .lang-btn:focus-visible {
   opacity: 1;
   transform: translateY(-1px);
-  outline: none;
+  outline: 2px solid var(--brand-soft);
+  outline-offset: 2px;
 }
 
 .lang-btn.is-active {
