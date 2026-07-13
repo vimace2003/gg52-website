@@ -461,6 +461,39 @@ h1 {
   object-fit: cover;
 }
 
+.member-avatar-flip {
+  perspective: 500px;
+  transition: border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.member-avatar-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 600ms ease;
+}
+
+.member-avatar-flip:hover,
+.member-avatar-flip.is-flipped {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.55), 0 0 18px rgba(212, 175, 55, 0.4);
+}
+
+.member-avatar-flip:hover .member-avatar-inner,
+.member-avatar-flip.is-flipped .member-avatar-inner {
+  transform: rotateY(180deg);
+}
+
+.member-avatar-flip .member-photo-front,
+.member-avatar-flip .member-photo-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.member-photo-back {
+  transform: rotateY(180deg);
+}
+
 .member-name {
   margin: 0;
   font-weight: 600;
@@ -767,5 +800,9 @@ h1 {
   .bg-shape-b,
   .content {
     animation: none;
+  }
+
+  .member-avatar-inner {
+    transition: none;
   }
 }

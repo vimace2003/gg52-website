@@ -1,13 +1,15 @@
 // Membros do time. Para editar a galeria, mexa apenas neste array.
 // Foto: coloque um arquivo ./members/<indicativo-minusculo>.jpg (ex: members/pp5kj.jpg);
 // sem foto, o card mostra as iniciais do nome. "callsigns" vazio = card sem link QRZ.
+// flip: true = easter egg: com uma segunda foto <indicativo>_2.jpg na pasta members/,
+// passar o mouse sobre o avatar vira a foto (flip) com borda dourada.
 const TEAM_MEMBERS = [
   { name: "Gibson", callsigns: ["PP5GW"] },
   { name: "Ricardo Pires", callsigns: ["PP5BM"] },
   { name: "Daniel (DAN)", callsigns: ["PP5DAN"] },
   { name: "Daniel Régis", callsigns: ["PP5RD"] },
   { name: "Hélio Vidal", callsigns: ["PU5HVW"] },
-  { name: "Henrique", callsigns: ["PP5NY"] },
+  { name: "Henrique", callsigns: ["PP5NY"], flip: true },
   { name: "João Carlos (Cabreuva)", callsigns: ["PP5GTA", "PY2GTA"] },
   { name: "Rodrigo", callsigns: ["PP5NB"] },
   { name: "Ronaldo", callsigns: [] },
@@ -246,6 +248,30 @@ function memberPhotoSlug(member) {
     .replace(/[^a-z0-9]/g, "");
 }
 
+function createMemberPhoto(slug, altText, onAllSourcesFailed) {
+  const photo = document.createElement("img");
+  photo.className = "member-photo";
+  photo.alt = altText;
+  photo.loading = "lazy";
+
+  const sources = [`./members/${slug}.jpg`, `./members/${slug}.png`];
+  let sourceIndex = 0;
+  photo.addEventListener("error", () => {
+    sourceIndex += 1;
+    if (sourceIndex < sources.length) {
+      photo.src = sources[sourceIndex];
+    } else {
+      photo.remove();
+      if (onAllSourcesFailed) {
+        onAllSourcesFailed();
+      }
+    }
+  });
+  photo.src = sources[sourceIndex];
+
+  return photo;
+}
+
 function renderTeamMembers() {
   const grid = document.getElementById("membersGrid");
   if (!grid) {
@@ -265,23 +291,35 @@ function renderTeamMembers() {
     initials.textContent = memberInitials(member.name);
     avatar.appendChild(initials);
 
-    const photo = document.createElement("img");
-    photo.className = "member-photo";
-    photo.alt = `Foto de ${member.name}`;
-    photo.loading = "lazy";
     const slug = memberPhotoSlug(member);
-    const photoSources = [`./members/${slug}.jpg`, `./members/${slug}.png`];
-    let photoSourceIndex = 0;
-    photo.addEventListener("error", () => {
-      photoSourceIndex += 1;
-      if (photoSourceIndex < photoSources.length) {
-        photo.src = photoSources[photoSourceIndex];
-      } else {
-        photo.remove();
-      }
-    });
-    photo.src = photoSources[photoSourceIndex];
-    avatar.appendChild(photo);
+
+    if (member.flip) {
+      avatar.classList.add("member-avatar-flip");
+
+      const flipInner = document.createElement("div");
+      flipInner.className = "member-avatar-inner";
+
+      const front = createMemberPhoto(slug, `Foto de ${member.name}`);
+      front.classList.add("member-photo-front");
+      flipInner.appendChild(front);
+
+      const back = createMemberPhoto(`${slug}_2`, "", () => {
+        // Sem a foto _2, o avatar volta a se comportar como os demais.
+        avatar.classList.remove("member-avatar-flip");
+      });
+      back.classList.add("member-photo-back");
+      back.setAttribute("aria-hidden", "true");
+      flipInner.appendChild(back);
+
+      avatar.appendChild(flipInner);
+
+      // Em telas de toque nao ha hover; um toque no avatar vira a foto.
+      avatar.addEventListener("click", () => {
+        avatar.classList.toggle("is-flipped");
+      });
+    } else {
+      avatar.appendChild(createMemberPhoto(slug, `Foto de ${member.name}`));
+    }
 
     const name = document.createElement("p");
     name.className = "member-name";
