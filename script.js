@@ -12,10 +12,27 @@ const TEAM_MEMBERS = [
   { name: "Henrique", callsigns: ["PP5NY"], flip: true },
   { name: "João Carlos (Cabreuva)", callsigns: ["PP5GTA", "PY2GTA"] },
   { name: "Rodrigo", callsigns: ["PP5NB"] },
-  { name: "Ronaldo", callsigns: [] },
+  { name: "Ronaldo Franz", callsigns: ["PU5LPZ"] },
   { name: "Evandro", callsigns: ["PU5LAF"] },
-  { name: "Roberto Franz", callsigns: ["PU5LPZ"] },
+  { name: "Roberto", callsigns: ["PU5BGB"] },
   { name: "Vinicius Macedo", callsigns: ["PP5KJ"] },
+];
+
+// Fotos do carrossel "Momentos". Arquivos em ./gallery/; a legenda vem do
+// i18n.js (chave "moments.<id>", traduzida em en/pt/es).
+const GALLERY_SLIDES = [
+  { file: "cambirela-caminhada.jpg", captionKey: "moments.cambirelaCaminhada" },
+  { file: "cambirela-grupo.jpg", captionKey: "moments.cambirelaGrupo" },
+  { file: "cambirela-trilha.jpg", captionKey: "moments.cambirelaTrilha" },
+  { file: "cambirela-cume.jpg", captionKey: "moments.cambirelaCume" },
+  { file: "cambirela-por-do-sol.jpg", captionKey: "moments.cambirelaPorDoSol" },
+  { file: "banner-cume.jpg", captionKey: "moments.bannerCume" },
+  { file: "banner-acampamento.jpg", captionKey: "moments.bannerAcampamento" },
+  { file: "ativacao-torre.jpg", captionKey: "moments.ativacaoTorre" },
+  { file: "campo-camper.jpg", captionKey: "moments.campoCamper" },
+  { file: "campo-torres.jpg", captionKey: "moments.campoTorres" },
+  { file: "campo-banner.jpg", captionKey: "moments.campoBanner" },
+  { file: "gg52-araf.jpg", captionKey: "moments.gg52Araf" },
 ];
 
 const scene = document.getElementById("logoScene");
@@ -354,6 +371,129 @@ function renderTeamMembers() {
   });
 }
 
+function setupCarousel() {
+  const track = document.getElementById("carouselTrack");
+  const dotsContainer = document.getElementById("carouselDots");
+  const prevBtn = document.getElementById("carouselPrev");
+  const nextBtn = document.getElementById("carouselNext");
+  if (!track || !GALLERY_SLIDES.length) {
+    return;
+  }
+
+  const captionOf = (slide) =>
+    typeof GG52_I18N !== "undefined" ? GG52_I18N.t(slide.captionKey) : "";
+
+  GALLERY_SLIDES.forEach((slide, index) => {
+    const figure = document.createElement("figure");
+    figure.className = "carousel-slide";
+
+    const img = document.createElement("img");
+    img.src = `./gallery/${slide.file}`;
+    img.alt = captionOf(slide);
+    img.loading = index === 0 ? "eager" : "lazy";
+    img.draggable = false;
+    figure.appendChild(img);
+
+    const caption = document.createElement("figcaption");
+    caption.setAttribute("data-i18n", slide.captionKey);
+    caption.textContent = captionOf(slide);
+    figure.appendChild(caption);
+
+    track.appendChild(figure);
+
+    if (dotsContainer) {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "carousel-dot";
+      dot.setAttribute("aria-label", `Foto ${index + 1}`);
+      dot.addEventListener("click", () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    }
+  });
+
+  const dots = dotsContainer ? Array.from(dotsContainer.children) : [];
+  let currentIndex = 0;
+  let autoTimerId = null;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function goToSlide(index) {
+    const total = GALLERY_SLIDES.length;
+    const target = ((index % total) + total) % total;
+    track.scrollTo({
+      left: target * track.clientWidth,
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  }
+
+  function updateDots() {
+    const index = Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
+    if (index !== currentIndex) {
+      currentIndex = index;
+    }
+    dots.forEach((dot, i) => dot.classList.toggle("is-active", i === currentIndex));
+  }
+
+  function restartAutoPlay() {
+    if (autoTimerId) {
+      clearInterval(autoTimerId);
+      autoTimerId = null;
+    }
+    if (reducedMotion) {
+      return;
+    }
+    autoTimerId = setInterval(() => {
+      if (document.hidden) {
+        return;
+      }
+      goToSlide(currentIndex + 1);
+    }, 6000);
+  }
+
+  track.addEventListener("scroll", () => {
+    window.requestAnimationFrame(updateDots);
+  });
+
+  // Interacao manual pausa o autoplay e recomeca a contagem.
+  ["pointerdown", "touchstart", "wheel", "keydown"].forEach((eventName) => {
+    track.addEventListener(eventName, restartAutoPlay, { passive: true });
+  });
+
+  const carousel = document.getElementById("photoCarousel");
+  if (carousel) {
+    carousel.addEventListener("mouseenter", () => {
+      if (autoTimerId) {
+        clearInterval(autoTimerId);
+        autoTimerId = null;
+      }
+    });
+    carousel.addEventListener("mouseleave", restartAutoPlay);
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      goToSlide(currentIndex - 1);
+      restartAutoPlay();
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      goToSlide(currentIndex + 1);
+      restartAutoPlay();
+    });
+  }
+
+  track.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      goToSlide(currentIndex - 1);
+    } else if (event.key === "ArrowRight") {
+      goToSlide(currentIndex + 1);
+    }
+  });
+
+  updateDots();
+  restartAutoPlay();
+}
+
 async function loadDeployInfo() {
   if (!deployMeta) {
     return;
@@ -375,6 +515,7 @@ async function loadDeployInfo() {
 }
 
 renderTeamMembers();
+setupCarousel();
 setupIframeObserver();
 loadDeployInfo();
 setupEasterEgg();

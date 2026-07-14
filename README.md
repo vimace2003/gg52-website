@@ -21,6 +21,8 @@ Principais pontos:
 - Integração com logbooks (QRZ e Hampass)
 - Widgets de estatísticas do QRZ
 - Página em três idiomas (inglês padrão, português e espanhol) com seletor de bandeiras
+- Carrossel "Momentos" com fotos do grupo e legendas traduzidas (fotos em gallery/, slides no array GALLERY_SLIDES do script.js, legendas no i18n.js)
+- Seção de vídeo em destaque ("O time em ação", gallery/brasil.mp4)
 - Analytics via Microsoft Clarity
 - Newsletter com backend em PHP salvando inscritos em arquivo TXT
 - Deploy automático via GitHub Actions para Hostgator (FTP)
